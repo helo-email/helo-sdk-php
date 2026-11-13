@@ -55,7 +55,7 @@ $helo = new Helo(httpClient: new \GuzzleHttp\Client(['timeout' => 10, 'proxy' =>
 ```
 
 Every request carries a `User-Agent` naming this package and the PHP running it, e.g.
-`helo-email-sdk/1.1.0 (php 8.3.0; linux/x86_64)`.
+`helo-email-sdk/1.2.0 (php 8.3.0; linux/x86_64)`.
 
 ## Automatic retries
 
@@ -163,6 +163,48 @@ $event = json_decode($body, true);
 // ... handle the event, then acknowledge quickly
 http_response_code(204);
 ```
+
+To verify and decode in one step, use `WebhookParser::parse()` with the same arguments. It throws
+the same exceptions, and returns the event's payload model (`null` for an event type this SDK
+version does not know yet, so you can still acknowledge it):
+
+```php
+use HeloEmail\Sdk\Exceptions\WebhookSignatureException;
+use HeloEmail\Sdk\Models\MessageAcceptedWebhookPayload;
+use HeloEmail\Sdk\Webhooks\WebhookParser;
+
+try {
+    $payload = WebhookParser::parse(
+        $_SERVER['HTTP_X_HELO_WEBHOOK_SIGNATURE'] ?? null,
+        file_get_contents('php://input'),
+        getenv('HELO_WEBHOOK_SIGNING_KEY'),
+    );
+} catch (WebhookSignatureException) {
+    http_response_code(400);
+    exit;
+}
+
+if ($payload instanceof MessageAcceptedWebhookPayload) {
+    // ...
+}
+http_response_code(204);
+```
+
+| Event | Payload |
+| ----- | ------- |
+| `message-accepted` | `MessageAcceptedWebhookPayload` |
+| `message-processed` | `MessageProcessedWebhookPayload` |
+| `email-delivered` | `EmailDeliveredWebhookPayload` |
+| `email-bounced` | `EmailBouncedWebhookPayload` |
+| `email-opened` | `EmailOpenedWebhookPayload` |
+| `link-clicked` | `LinkClickedWebhookPayload` |
+| `recipient-complained` | `RecipientComplainedWebhookPayload` |
+| `recipient-unsubscribed` | `RecipientUnsubscribedWebhookPayload` |
+| `recipient-resubscribed` | `RecipientResubscribedWebhookPayload` |
+| `domain-key-verified` | `DomainKeyVerifiedPayload` |
+| `domain-key-verification-failed` | `DomainKeyVerificationFailedPayload` |
+| `return-path-domain-verified` | `ReturnPathDomainVerifiedPayload` |
+| `return-path-domain-verification-failed` | `ReturnPathDomainVerificationFailedPayload` |
 
 In Laravel or Symfony, pass `$request->header('X-Helo-Webhook-Signature')` (or
 `$request->headers->get(...)`) and `$request->getContent()`.

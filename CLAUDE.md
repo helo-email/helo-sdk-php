@@ -41,6 +41,8 @@ There is no publish step: Packagist publishes a version when it sees the tag. `r
   the `WebhookSignature*Exception` classes, all extending `HeloException`.
 - `src/Webhooks/WebhookSignature.php`: HMAC-SHA256 verification of the
   `X-Helo-Webhook-Signature` header (`verify`, `isValid`, `generate`).
+- `src/Webhooks/WebhookParser.php`: `parse` verifies a delivery, then decodes it into the payload
+  model for its `eventType` (null for one this version does not know).
 
 ## Documentation & code samples
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0
+
+- Added `WebhookParser::parse()`, which verifies a webhook delivery's signature and decodes its body
+  into the payload model for its event, such as `EmailBouncedWebhookPayload` or
+  `DomainKeyVerifiedPayload`. It takes the same arguments as `WebhookSignature::verify()` and throws
+  the same exceptions, and returns `null` for an event type this version does not know yet, so you
+  can still acknowledge it.
+
 ## 1.1.0
 
 - Fixed an empty `metadata`, `tracking`, `headers` or template `data` being sent as `[]`
