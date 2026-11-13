@@ -9,7 +9,7 @@ final class BroadcastDetailsResponse
     public function __construct(
         public readonly string $id,
         public readonly \DateTimeImmutable $createdAt,
-        public readonly BroadcastStatus $status,
+        public readonly BroadcastStatus|string $status,
         public readonly string $subject,
         public readonly string $completion,
         public readonly int $messages,
@@ -39,7 +39,7 @@ final class BroadcastDetailsResponse
         return new self(
             id: $data['id'],
             createdAt: new \DateTimeImmutable($data['createdAt']),
-            status: BroadcastStatus::from($data['status']),
+            status: BroadcastStatus::tryFrom($data['status']) ?? $data['status'],
             subject: $data['subject'],
             completion: $data['completion'],
             messages: $data['messages'],

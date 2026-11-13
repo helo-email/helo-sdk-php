@@ -28,7 +28,7 @@ final class WebhookResponse
         public readonly ?array $additionalHeaders = null,
         /**
          * Event types that trigger this webhook.
-         * @var list<WebhookEvent>|null
+         * @var list<WebhookEvent|string>|null
          */
         public readonly ?array $events = null,
         /**
@@ -53,7 +53,7 @@ final class WebhookResponse
             payloadSigningKey: $data['payloadSigningKey'] ?? null,
             enabled: $data['enabled'] ?? null,
             additionalHeaders: isset($data['additionalHeaders']) ? array_map(static fn ($item) => WebhookHeader::fromArray($item), $data['additionalHeaders']) : null,
-            events: isset($data['events']) ? array_map(static fn ($item) => WebhookEvent::from($item), $data['events']) : null,
+            events: isset($data['events']) ? array_map(static fn ($item) => WebhookEvent::tryFrom($item) ?? $item, $data['events']) : null,
             lastResponse: isset($data['lastResponse']) ? WebhookLastResponse::fromArray($data['lastResponse']) : null,
         );
     }

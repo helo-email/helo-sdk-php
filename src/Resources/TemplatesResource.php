@@ -105,6 +105,7 @@ final class TemplatesResource
                 'inlineStyles' => $inlineStyles,
                 'data' => $data,
             ],
+            objects: ['data'],
         );
 
         return RenderTemplateResponse::fromArray($data);
@@ -131,6 +132,8 @@ final class TemplatesResource
      * Update a template
      *
      * @param list<string>|null $channelIds
+     * @param list<string>|null $nullFields arguments to send as null, which clears them: 'html',
+     * 'mjml', 'text', 'channelIds'
      *
      * @throws ApiException
      * @throws ApiConnectionException
@@ -144,6 +147,7 @@ final class TemplatesResource
         ?string $text = null,
         ?array $channelIds = null,
         ?int $version = null,
+        ?array $nullFields = null,
     ): TemplateResponse {
         $data = $this->http->request(
             'PATCH',
@@ -157,6 +161,7 @@ final class TemplatesResource
                 'channelIds' => $channelIds,
                 'version' => $version,
             ],
+            nulls: HttpClient::nullFields($nullFields, ['html' => 'html', 'mjml' => 'mjml', 'text' => 'text', 'channelIds' => 'channelIds']),
         );
 
         return TemplateResponse::fromArray($data);
@@ -197,6 +202,7 @@ final class TemplatesResource
                 'inlineStyles' => $inlineStyles,
                 'data' => $data,
             ],
+            objects: ['data'],
         );
 
         return RenderTemplateResponse::fromArray($data);

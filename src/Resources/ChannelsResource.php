@@ -69,6 +69,7 @@ final class ChannelsResource
                 'deliveryType' => $deliveryType,
                 'tracking' => $tracking,
             ],
+            objects: ['tracking'],
         );
 
         return ChannelDetailsResponse::fromArray($data);
@@ -113,6 +114,7 @@ final class ChannelsResource
                 'deliveryType' => $deliveryType,
                 'tracking' => $tracking,
             ],
+            objects: ['tracking'],
         );
 
         return ChannelDetailsResponse::fromArray($data);

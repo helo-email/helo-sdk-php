@@ -53,6 +53,14 @@ final class ChannelsTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('POST', $request->getMethod());
         self::assertSame('/channels', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'name' => 'test-name',
+            'deliveryType' => DeliveryType::Live,
+            'tracking' => ['links' => true, 'opens' => true],
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(ChannelDetailsResponse::class, $result);
     }
 
@@ -98,6 +106,14 @@ final class ChannelsTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('PATCH', $request->getMethod());
         self::assertSame('/channels/550e8400-e29b-41d4-a716-446655440000', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'name' => 'test-name',
+            'deliveryType' => DeliveryType::Live,
+            'tracking' => ['links' => true, 'opens' => true],
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(ChannelDetailsResponse::class, $result);
     }
 

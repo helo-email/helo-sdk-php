@@ -62,6 +62,17 @@ final class TemplatesTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('POST', $request->getMethod());
         self::assertSame('/templates', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'name' => 'test-name',
+            'subject' => 'test-subject',
+            'html' => 'test-html',
+            'mjml' => 'test-mjml',
+            'text' => 'test-text',
+            'channelIds' => ['550e8400-e29b-41d4-a716-446655440000'],
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(TemplateResponse::class, $result);
     }
 
@@ -80,6 +91,16 @@ final class TemplatesTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('POST', $request->getMethod());
         self::assertSame('/templates/render', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'subject' => 'test-subject',
+            'html' => 'test-html',
+            'mjml' => 'test-mjml',
+            'text' => 'test-text',
+            'inlineStyles' => true,
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(RenderTemplateResponse::class, $result);
     }
 
@@ -137,6 +158,18 @@ final class TemplatesTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('PATCH', $request->getMethod());
         self::assertSame('/templates/550e8400-e29b-41d4-a716-446655440000', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'name' => 'test-name',
+            'subject' => 'test-subject',
+            'html' => 'test-html',
+            'mjml' => 'test-mjml',
+            'text' => 'test-text',
+            'channelIds' => ['550e8400-e29b-41d4-a716-446655440000'],
+            'version' => 10,
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(TemplateResponse::class, $result);
     }
 
@@ -165,6 +198,12 @@ final class TemplatesTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('POST', $request->getMethod());
         self::assertSame('/templates/550e8400-e29b-41d4-a716-446655440000/render', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'inlineStyles' => true,
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(RenderTemplateResponse::class, $result);
     }
 }

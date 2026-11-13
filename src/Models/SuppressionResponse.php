@@ -8,7 +8,7 @@ final class SuppressionResponse
 {
     public function __construct(
         public readonly string $email,
-        public readonly SuppressionReason $reason,
+        public readonly SuppressionReason|string $reason,
         public readonly \DateTimeImmutable $createdAt,
     ) {
     }
@@ -22,7 +22,7 @@ final class SuppressionResponse
     {
         return new self(
             email: $data['email'],
-            reason: SuppressionReason::from($data['reason']),
+            reason: SuppressionReason::tryFrom($data['reason']) ?? $data['reason'],
             createdAt: new \DateTimeImmutable($data['createdAt']),
         );
     }

@@ -9,7 +9,7 @@ final class BroadcastContentAttachment
     public function __construct(
         /** File name including extension. */
         public readonly string $fileName,
-        public readonly AttachmentDisposition $disposition,
+        public readonly AttachmentDisposition|string $disposition,
         /** File size in bytes. */
         public readonly int $size,
     ) {
@@ -24,7 +24,7 @@ final class BroadcastContentAttachment
     {
         return new self(
             fileName: $data['fileName'],
-            disposition: AttachmentDisposition::from($data['disposition']),
+            disposition: AttachmentDisposition::tryFrom($data['disposition']) ?? $data['disposition'],
             size: $data['size'],
         );
     }

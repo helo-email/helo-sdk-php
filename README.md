@@ -55,12 +55,36 @@ $helo = new Helo(httpClient: new \GuzzleHttp\Client(['timeout' => 10, 'proxy' =>
 ```
 
 Every request carries a `User-Agent` naming this package and the PHP running it, e.g.
-`helo-email-sdk/1.0.0 (php 8.3.0; linux/x86_64)`.
+`helo-email-sdk/1.1.0 (php 8.3.0; linux/x86_64)`.
 
 ## Automatic retries
 
-Connection errors, timeouts, `408`, `429` and `5xx` responses are retried with exponential backoff
-and full jitter. A `Retry-After` header is honoured when present. Pass `maxRetries: 0` to disable.
+A request that fails with a network error, a timeout, or a `408`, `429`, `500`, `502`, `503` or
+`504` response is retried up to 2 times, with exponential backoff and full jitter. It
+is only retried when sending it again can't do anything twice: a `GET`, `PUT` or `DELETE`,
+or a request carrying an idempotency key. A `429` is always retried, since the server
+refused the request without acting on it. A `Retry-After` header is honoured; one asking
+for more than 8 seconds is not retried early, and the error is returned instead.
+
+Operations that take an idempotency key generate one for each call when you don't pass
+one, and send it on every retry, so a send whose response was lost is never sent twice.
+Pass your own key to make your own retries (a background job run again, say) safe too.
+
+Pass `maxRetries: 0` to the client to disable retries, or another number to change how many.
+
+## Clearing a field
+
+Leaving an argument out (or passing `null`) leaves the field as it is. To clear a field the API
+accepts `null` for, name it in `nullFields`; the method's docblock lists which ones it takes:
+
+```php
+$helo->templates->update(id: $templateId, nullFields: ['text']);
+```
+
+## Enums in responses
+
+An enum property holds the enum case, or the raw string for a value added to the API after this
+SDK version was released, so an older SDK keeps working. Compare against cases with `===`.
 
 ## Resources
 

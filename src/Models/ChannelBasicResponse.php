@@ -11,7 +11,7 @@ final class ChannelBasicResponse
         public readonly ?string $id = null,
         /** The display name of the channel. */
         public readonly ?string $name = null,
-        public readonly ?DeliveryType $deliveryType = null,
+        public readonly DeliveryType|string|null $deliveryType = null,
         /** When the channel was created. */
         public readonly ?\DateTimeImmutable $createdAt = null,
     ) {
@@ -27,7 +27,7 @@ final class ChannelBasicResponse
         return new self(
             id: $data['id'] ?? null,
             name: $data['name'] ?? null,
-            deliveryType: isset($data['deliveryType']) ? DeliveryType::from($data['deliveryType']) : null,
+            deliveryType: isset($data['deliveryType']) ? DeliveryType::tryFrom($data['deliveryType']) ?? $data['deliveryType'] : null,
             createdAt: isset($data['createdAt']) ? new \DateTimeImmutable($data['createdAt']) : null,
         );
     }

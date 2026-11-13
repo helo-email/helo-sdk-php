@@ -70,6 +70,7 @@ final class WebhooksResource
                 'additionalHeaders' => $additionalHeaders,
                 'enabled' => $enabled,
             ],
+            objects: ['additionalHeaders.*'],
         );
 
         return WebhookResponse::fromArray($data);
@@ -97,6 +98,8 @@ final class WebhooksResource
      *
      * @param list<WebhookEvent>|null $events
      * @param list<array<string, mixed>>|null $additionalHeaders
+     * @param list<string>|null $nullFields arguments to send as null, which clears them:
+     * 'channelId', 'additionalHeaders'
      *
      * @throws ApiException
      * @throws ApiConnectionException
@@ -108,6 +111,7 @@ final class WebhooksResource
         ?string $channelId = null,
         ?array $additionalHeaders = null,
         ?bool $enabled = null,
+        ?array $nullFields = null,
     ): WebhookResponse {
         $data = $this->http->request(
             'PATCH',
@@ -119,6 +123,8 @@ final class WebhooksResource
                 'additionalHeaders' => $additionalHeaders,
                 'enabled' => $enabled,
             ],
+            nulls: HttpClient::nullFields($nullFields, ['channelId' => 'channelId', 'additionalHeaders' => 'additionalHeaders']),
+            objects: ['additionalHeaders.*'],
         );
 
         return WebhookResponse::fromArray($data);

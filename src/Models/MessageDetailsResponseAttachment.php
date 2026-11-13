@@ -8,7 +8,7 @@ final class MessageDetailsResponseAttachment
 {
     public function __construct(
         public readonly string $fileName,
-        public readonly AttachmentDisposition $disposition,
+        public readonly AttachmentDisposition|string $disposition,
         public readonly float $size,
     ) {
     }
@@ -22,7 +22,7 @@ final class MessageDetailsResponseAttachment
     {
         return new self(
             fileName: $data['fileName'],
-            disposition: AttachmentDisposition::from($data['disposition']),
+            disposition: AttachmentDisposition::tryFrom($data['disposition']) ?? $data['disposition'],
             size: $data['size'],
         );
     }

@@ -30,13 +30,6 @@ $sendMessageAccepted = $helo->sending->sendTransactional(
     subject: 'Hello from Helo',
     html: '<html><body><h1>Hi there, new friend.</h1><p>This is a test message, delivered with <3 by Helo. </p></body></html>',
     text: 'This is a test message, delivered with <3 by Helo.',
-    template: [
-        'id' => '550e8400-e29b-41d4-a716-446655440000',
-        'subject' => 'test-subject',
-        'html' => 'test-html',
-        'text' => 'test-text',
-        'inlineStyles' => true,
-    ],
     tracking: ['opens' => true, 'links' => true],
     attachments: [
         [
@@ -95,10 +88,9 @@ $helo = new Helo(); // reads HELO_API_KEY from the environment
 $sendBroadcast = $helo->sending->sendBroadcast(
     from: ['email' => 'test@example.com', 'name' => 'test-name'],
     template: [
-        'id' => '550e8400-e29b-41d4-a716-446655440000',
-        'subject' => 'test-subject',
-        'html' => 'test-html',
-        'text' => 'test-text',
+        'subject' => 'Hello, {{name}}',
+        'html' => '<html><body><h1>Hi {{name}}.</h1><p>This is a broadcast, delivered with <3 by Helo.</p></body></html>',
+        'text' => 'Hi {{name}}. This is a broadcast, delivered with <3 by Helo.',
         'inlineStyles' => true,
     ],
     messages: [['to' => [['email' => 'test@example.com', 'name' => 'test-name']], 'tags' => ['test-tag']]],
@@ -140,13 +132,6 @@ $sendMessageAccepted = $helo->sending->sendBroadcastMessage(
     subject: 'Hello from Helo',
     html: '<html><body><h1>Hi there, new friend.</h1><p>This is a test message, delivered with <3 by Helo. </p></body></html>',
     text: 'This is a test message, delivered with <3 by Helo.',
-    template: [
-        'id' => '550e8400-e29b-41d4-a716-446655440000',
-        'subject' => 'test-subject',
-        'html' => 'test-html',
-        'text' => 'test-text',
-        'inlineStyles' => true,
-    ],
     tracking: ['opens' => true, 'links' => true],
     attachments: [
         [

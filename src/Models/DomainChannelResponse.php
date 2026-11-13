@@ -9,7 +9,7 @@ final class DomainChannelResponse
     public function __construct(
         public readonly string $id,
         public readonly string $name,
-        public readonly DeliveryType $deliveryType,
+        public readonly DeliveryType|string $deliveryType,
         public readonly ?bool $deleted = null,
     ) {
     }
@@ -24,7 +24,7 @@ final class DomainChannelResponse
         return new self(
             id: $data['id'],
             name: $data['name'],
-            deliveryType: DeliveryType::from($data['deliveryType']),
+            deliveryType: DeliveryType::tryFrom($data['deliveryType']) ?? $data['deliveryType'],
             deleted: $data['deleted'] ?? null,
         );
     }

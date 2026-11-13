@@ -44,8 +44,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return $this->history[array_key_last($this->history)]['request'];
     }
 
-    protected function requestCount(): int
+    /** @return list<RequestInterface> */
+    protected function requests(): array
     {
-        return count($this->history);
+        return array_map(static fn (array $entry) => $entry['request'], $this->history);
     }
 }

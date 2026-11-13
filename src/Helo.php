@@ -20,7 +20,7 @@ use Psr\Http\Client\ClientInterface;
 /** Client for the Helo API. */
 final class Helo
 {
-    public const VERSION = '1.0.0';
+    public const VERSION = '1.1.0';
     public const DEFAULT_BASE_URL = 'https://api.helohq.com';
     public const DEFAULT_TIMEOUT = 30.0;
     public const DEFAULT_MAX_RETRIES = 2;

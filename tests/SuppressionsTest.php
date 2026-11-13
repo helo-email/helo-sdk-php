@@ -43,6 +43,14 @@ final class SuppressionsTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('POST', $request->getMethod());
         self::assertSame('/suppressions', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'channelId' => '550e8400-e29b-41d4-a716-446655440000',
+            'mailType' => MailType::Transactional,
+            'emails' => ['test@example.com'],
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(CreateSuppressionsResponse::class, $result);
     }
 
@@ -59,6 +67,14 @@ final class SuppressionsTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('POST', $request->getMethod());
         self::assertSame('/suppressions/remove', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'channelId' => '550e8400-e29b-41d4-a716-446655440000',
+            'mailType' => MailType::Transactional,
+            'emails' => ['test@example.com'],
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(RemoveSuppressionsResponse::class, $result);
     }
 }

@@ -75,8 +75,9 @@ final class SendingResource
             ],
             headers: [
                 'X-Helo-Channel-Id' => $channelId,
-                'X-Helo-Idempotency-Key' => $idempotencyKey,
+                'X-Helo-Idempotency-Key' => $idempotencyKey ?? HttpClient::idempotencyKey(),
             ],
+            objects: ['from', 'to.*', 'cc.*', 'bcc.*', 'replyTo.*', 'template', 'template.data', 'tracking', 'attachments.*', 'headers', 'metadata'],
         );
 
         return SendMessageAcceptedResponse::fromArray($data);
@@ -103,8 +104,9 @@ final class SendingResource
             ],
             headers: [
                 'X-Helo-Channel-Id' => $channelId,
-                'X-Helo-Idempotency-Key' => $idempotencyKey,
+                'X-Helo-Idempotency-Key' => $idempotencyKey ?? HttpClient::idempotencyKey(),
             ],
+            objects: ['requests.*', 'requests.*.from', 'requests.*.to.*', 'requests.*.cc.*', 'requests.*.bcc.*', 'requests.*.replyTo.*', 'requests.*.template', 'requests.*.template.data', 'requests.*.tracking', 'requests.*.attachments.*', 'requests.*.headers', 'requests.*.metadata'],
         );
 
         return SendMessageBatchResponse::fromArray($data);
@@ -155,8 +157,9 @@ final class SendingResource
             ],
             headers: [
                 'X-Helo-Channel-Id' => $channelId,
-                'X-Helo-Idempotency-Key' => $idempotencyKey,
+                'X-Helo-Idempotency-Key' => $idempotencyKey ?? HttpClient::idempotencyKey(),
             ],
+            objects: ['from', 'template', 'template.data', 'messages.*', 'messages.*.to.*', 'messages.*.cc.*', 'messages.*.bcc.*', 'messages.*.headers', 'messages.*.metadata', 'messages.*.data', 'replyTo.*', 'tracking', 'attachments.*', 'headers', 'metadata'],
         );
 
         return SendBroadcastResponse::fromArray($data);
@@ -219,8 +222,9 @@ final class SendingResource
             ],
             headers: [
                 'X-Helo-Channel-Id' => $channelId,
-                'X-Helo-Idempotency-Key' => $idempotencyKey,
+                'X-Helo-Idempotency-Key' => $idempotencyKey ?? HttpClient::idempotencyKey(),
             ],
+            objects: ['from', 'to.*', 'cc.*', 'bcc.*', 'replyTo.*', 'template', 'template.data', 'tracking', 'attachments.*', 'headers', 'metadata'],
         );
 
         return SendMessageAcceptedResponse::fromArray($data);

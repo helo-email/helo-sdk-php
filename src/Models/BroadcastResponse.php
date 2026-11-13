@@ -11,7 +11,7 @@ final class BroadcastResponse
         public readonly string $id,
         /** When the broadcast was submitted. */
         public readonly \DateTimeImmutable $createdAt,
-        public readonly BroadcastStatus $status,
+        public readonly BroadcastStatus|string $status,
         /** Email subject line. */
         public readonly string $subject,
         /** Processing progress as a percentage (e.g. `"45%"`). */
@@ -31,7 +31,7 @@ final class BroadcastResponse
         return new self(
             id: $data['id'],
             createdAt: new \DateTimeImmutable($data['createdAt']),
-            status: BroadcastStatus::from($data['status']),
+            status: BroadcastStatus::tryFrom($data['status']) ?? $data['status'],
             subject: $data['subject'],
             completion: $data['completion'],
             messages: $data['messages'],

@@ -101,6 +101,14 @@ final class DomainsTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('POST', $request->getMethod());
         self::assertSame('/domains', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'name' => 'test-name',
+            'channelIds' => ['550e8400-e29b-41d4-a716-446655440000'],
+            'enableCustomTracking' => true,
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(DomainWithDnsResponse::class, $result);
     }
 
@@ -189,6 +197,13 @@ final class DomainsTest extends TestCase
         $request = $this->lastRequest();
         self::assertSame('PATCH', $request->getMethod());
         self::assertSame('/domains/550e8400-e29b-41d4-a716-446655440000', $request->getUri()->getPath());
+        self::assertEquals(
+            json_decode(json_encode([
+            'channelIds' => ['550e8400-e29b-41d4-a716-446655440000'],
+            'enableCustomTracking' => true,
+        ]), true),
+            json_decode((string) $request->getBody(), true),
+        );
         self::assertInstanceOf(DomainResponse::class, $result);
     }
 

@@ -7,7 +7,7 @@ namespace HeloEmail\Sdk\Models;
 final class MessageDetailsResponseEvent
 {
     public function __construct(
-        public readonly EventType $eventType,
+        public readonly EventType|string $eventType,
         public readonly \DateTimeImmutable $timestamp,
         /** @var list<string> */
         public readonly array $recipients,
@@ -24,7 +24,7 @@ final class MessageDetailsResponseEvent
     public static function fromArray(array $data): self
     {
         return new self(
-            eventType: EventType::from($data['eventType']),
+            eventType: EventType::tryFrom($data['eventType']) ?? $data['eventType'],
             timestamp: new \DateTimeImmutable($data['timestamp']),
             recipients: $data['recipients'],
             details: $data['details'] ?? null,
