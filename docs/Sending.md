@@ -54,6 +54,7 @@ Sends multiple transactional emails in a single API request for better performan
 
 ```php Sending_sendTransactionalBatch
 use HeloEmail\Sdk\Helo;
+use HeloEmail\Sdk\Models\BatchValidationMode;
 
 $helo = new Helo(); // reads HELO_API_KEY from the environment
 
@@ -68,6 +69,7 @@ $sendMessageBatch = $helo->sending->sendTransactionalBatch(
             'tags' => ['welcome', 'onboarding'],
         ],
     ],
+    validation: BatchValidationMode::Strict,
     channelId: '550e8400-e29b-41d4-a716-446655440000',
     idempotencyKey: 'test-idempotencyKey',
 );

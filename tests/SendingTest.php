@@ -6,6 +6,7 @@ namespace HeloEmail\Sdk\Tests;
 
 use GuzzleHttp\Psr7\Response;
 use HeloEmail\Sdk\Models\AttachmentDisposition;
+use HeloEmail\Sdk\Models\BatchValidationMode;
 use HeloEmail\Sdk\Models\SendBroadcastResponse;
 use HeloEmail\Sdk\Models\SendMessageAcceptedResponse;
 use HeloEmail\Sdk\Models\SendMessageBatchResponse;
@@ -127,6 +128,7 @@ final class SendingTest extends TestCase
                     'suppressions' => ['example'],
                     'errorCode' => 'example',
                     'errorMessage' => 'example',
+                    'errors' => [],
                 ],
             ],
         ]));
@@ -142,6 +144,7 @@ final class SendingTest extends TestCase
                     'tags' => ['welcome', 'onboarding'],
                 ],
             ],
+            validation: BatchValidationMode::Strict,
             channelId: '550e8400-e29b-41d4-a716-446655440000',
             idempotencyKey: 'test-idempotencyKey',
         );
@@ -163,6 +166,7 @@ final class SendingTest extends TestCase
                     'tags' => ['welcome', 'onboarding'],
                 ],
             ],
+            'validation' => BatchValidationMode::Strict,
         ]), true),
             json_decode((string) $request->getBody(), true),
         );
@@ -182,6 +186,7 @@ final class SendingTest extends TestCase
                     'suppressions' => ['example'],
                     'errorCode' => 'example',
                     'errorMessage' => 'example',
+                    'errors' => [],
                 ],
             ],
         ]),
@@ -198,6 +203,7 @@ final class SendingTest extends TestCase
                     'tags' => ['welcome', 'onboarding'],
                 ],
             ],
+            validation: BatchValidationMode::Strict,
             channelId: '550e8400-e29b-41d4-a716-446655440000',
         );
 

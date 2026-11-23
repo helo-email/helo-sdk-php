@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Added `validation` parameter to batch sending requests, allowing control over the processing behaviour of partial failures.
+
 ## 1.2.0
 
 - Added `WebhookParser::parse()`, which verifies a webhook delivery's signature and decodes its body

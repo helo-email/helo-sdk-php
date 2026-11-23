@@ -7,6 +7,7 @@ namespace HeloEmail\Sdk\Resources;
 use HeloEmail\Sdk\Exceptions\ApiException;
 use HeloEmail\Sdk\Exceptions\ApiConnectionException;
 use HeloEmail\Sdk\Internal\HttpClient;
+use HeloEmail\Sdk\Models\BatchValidationMode;
 use HeloEmail\Sdk\Models\SendBroadcastResponse;
 use HeloEmail\Sdk\Models\SendMessageAcceptedResponse;
 use HeloEmail\Sdk\Models\SendMessageBatchResponse;
@@ -93,6 +94,7 @@ final class SendingResource
      */
     public function sendTransactionalBatch(
         array $requests,
+        ?BatchValidationMode $validation = null,
         ?string $channelId = null,
         ?string $idempotencyKey = null,
     ): SendMessageBatchResponse {
@@ -101,6 +103,7 @@ final class SendingResource
             '/send/transactional/batch',
             body: [
                 'requests' => $requests,
+                'validation' => $validation,
             ],
             headers: [
                 'X-Helo-Channel-Id' => $channelId,

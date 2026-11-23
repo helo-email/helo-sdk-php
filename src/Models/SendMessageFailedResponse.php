@@ -10,6 +10,12 @@ final class SendMessageFailedResponse
         public readonly string $status,
         public readonly string $errorCode,
         public readonly string $errorMessage,
+        /**
+         * Field-level validation errors for this message, keyed by field (relative to the message).
+         * Only present when `errorCode` is `validation_failed`, which happens in a `relaxed` batch.
+         * @var array<string, list<ValidationError>>|null
+         */
+        public readonly ?array $errors = null,
     ) {
     }
 
@@ -24,6 +30,7 @@ final class SendMessageFailedResponse
             status: $data['status'],
             errorCode: $data['errorCode'],
             errorMessage: $data['errorMessage'],
+            errors: isset($data['errors']) ? array_map(static fn ($item) => array_map(static fn ($item) => ValidationError::fromArray($item), $item), $data['errors']) : null,
         );
     }
 }

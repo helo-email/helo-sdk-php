@@ -55,7 +55,7 @@ $helo = new Helo(httpClient: new \GuzzleHttp\Client(['timeout' => 10, 'proxy' =>
 ```
 
 Every request carries a `User-Agent` naming this package and the PHP running it, e.g.
-`helo-email-sdk/1.2.0 (php 8.3.0; linux/x86_64)`.
+`helo-email-sdk/1.3.0 (php 8.3.0; linux/x86_64)`.
 
 ## Automatic retries
 

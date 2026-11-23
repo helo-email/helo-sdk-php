@@ -13,6 +13,12 @@ final class SendMessageResponse
         public readonly ?array $suppressions = null,
         public readonly ?string $errorCode = null,
         public readonly ?string $errorMessage = null,
+        /**
+         * Field-level validation errors for this message, keyed by field (relative to the message).
+         * Only present when `errorCode` is `validation_failed`, which happens in a `relaxed` batch.
+         * @var array<string, list<ValidationError>>|null
+         */
+        public readonly ?array $errors = null,
     ) {
     }
 
@@ -29,6 +35,7 @@ final class SendMessageResponse
             suppressions: $data['suppressions'] ?? null,
             errorCode: $data['errorCode'] ?? null,
             errorMessage: $data['errorMessage'] ?? null,
+            errors: isset($data['errors']) ? array_map(static fn ($item) => array_map(static fn ($item) => ValidationError::fromArray($item), $item), $data['errors']) : null,
         );
     }
 }
